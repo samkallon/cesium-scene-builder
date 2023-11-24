@@ -49,6 +49,7 @@ watch(()=>store.projectList,()=>{
       value:e
     }
   })
+  scene.value = ''
 },{
   deep:true
 })

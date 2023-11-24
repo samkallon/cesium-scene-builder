@@ -134,31 +134,39 @@ export function addWallGeojson({
  * @param color
  */
 export function addDynamicLine(positions, type, color) {
-    window.viewer.entities.add({
-        name: type,
-        polyline: {
-            positions: Cesium.Cartesian3.fromDegreesArray(positions.flat(3)),
+    // window.viewer.entities.add({
+    //     name: type,
+    //     polyline: {
+    //         positions: Cesium.Cartesian3.fromDegreesArray(positions.flat(3)),
+    //         width: 150,
+    //         material: new Cesium.PolylineGlowMaterialProperty({
+    //             glowPower: 0.02,
+    //             taperPower: 1,
+    //             color: Cesium.Color.fromCssColorString(color || '#ff850a')
+    //         }),
+    //         clampToGround: true,
+    //     },
+    // });
+    const geometryInstances1 = new Cesium.GeometryInstance({
+        geometry: new Cesium.GroundPolylineGeometry({
+            positions:Cesium.Cartesian3.fromDegreesArray(positions.flat(3)),
+            width: 6,
+            vertexFormat: Cesium.PolylineMaterialAppearance.VERTEX_FORMAT,
+        })
+    })
+    const geometryInstances2 = new Cesium.GeometryInstance({
+        geometry: new Cesium.GroundPolylineGeometry({
+            positions:Cesium.Cartesian3.fromDegreesArray(positions.flat(3)),
             width: 150,
-            material: new Cesium.PolylineGlowMaterialProperty({
-                glowPower: 0.02,
-                taperPower: 1,
-                color: Cesium.Color.fromCssColorString(color || '#ff850a')
-            }),
-            clampToGround: true,
-        },
-    });
-    const linePrimitive = new Cesium.GroundPolylinePrimitive({
-        geometryInstances: new Cesium.GeometryInstance({
-            geometry: new Cesium.GroundPolylineGeometry({
-                positions:Cesium.Cartesian3.fromDegreesArray(positions.flat(3)),
-                width: 6.0,
-                vertexFormat: Cesium.PolylineMaterialAppearance.VERTEX_FORMAT,
-            }),
-        }),
+            vertexFormat: Cesium.PolylineMaterialAppearance.VERTEX_FORMAT,
+        })
+    })
+    const linePrimitive1 = new Cesium.GroundPolylinePrimitive({
+        geometryInstances:geometryInstances1,
         appearance: new Cesium.PolylineMaterialAppearance({
             material: new Cesium.Material({
                 fabric: {
-                    type: 'DynamicColor',
+                    // type: 'DynamicColor',
                     // type: Cesium.Material.PolylineGlowType,
                     uniforms: {
                         u_image: getAssetsFile('imgs/materialImg/wall-1.png'),
@@ -183,8 +191,27 @@ export function addDynamicLine(positions, type, color) {
             }),
         }),
     })
-    linePrimitive.name = type;
-    window.viewer.scene.groundPrimitives.add(linePrimitive);
+    const linePrimitive2 = new Cesium.GroundPolylinePrimitive({
+        geometryInstances:geometryInstances2,
+        appearance: new Cesium.PolylineMaterialAppearance({
+            material: new Cesium.Material({
+                fabric:{
+                    type:'PolylineGlow',
+                    uniforms: {
+                        color: Cesium.Color.fromCssColorString(color||'#ff850a'),
+                        glowPower: 0.02,
+                        taperPower:1
+                    },
+                }
+
+            })
+        }),
+    })
+    linePrimitive1.name = type;
+    linePrimitive2.name = type;
+    window.viewer.scene.groundPrimitives.add(linePrimitive2);
+
+    window.viewer.scene.groundPrimitives.add(linePrimitive1);
 }
 //
 export function addDynamicWaveCircle({center, radius, type, color}) {
@@ -294,9 +321,11 @@ export async function locationToGeojson(geojson, showGeo = false) {
 }
 
 export function removeAllPrimitive() {
-    window.viewer.scene.primitives._primitives.forEach(e=>window.viewer.scene.primitives.remove(e))
-    window.viewer.scene.groundPrimitives._primitives.forEach(e=>window.viewer.scene.primitives.remove(e))
+    window.viewer.entities.removeAll()
+    window.viewer.scene.primitives.removeAll()
+    window.viewer.scene.groundPrimitives.removeAll()
 }
+
 //
 // /**
 //  *
