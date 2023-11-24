@@ -1,4 +1,6 @@
-import {bbox, buffer, center} from '@turf/turf'
+// import {bbox, buffer} from '@turf/turf'
+import bbox from '@turf/bbox'
+import buffer from '@turf/buffer'
 import {getAssetsFile} from "./utils.js";
 
 import * as Cesium from "cesium";
