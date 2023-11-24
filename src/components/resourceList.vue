@@ -47,6 +47,17 @@ watch(()=>store.currentScene,()=>{
       }
     })
   }
+  if (scene.cameraConfig){
+    window.viewer.camera.flyTo({
+      destination: new Cesium.Cartesian3(scene.cameraConfig.position.x,scene.cameraConfig.position.y,scene.cameraConfig.position.z)  ,
+      orientation:{
+        heading:scene.cameraConfig.heading,
+        pitch:scene.cameraConfig.pitch,
+        roll:scene.cameraConfig.roll,
+      },
+      duration:2
+    })
+  }
 })
 
 function getCurScene() {
