@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "deploy": "vite build && publish-sftp -r cesium-scene-builder && publish-sftp -c cesium-scene-builder",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "@vitejs/plugin-vue": "^4.5.0",
     "vite": "^5.0.0",
     "vite-plugin-cesium": "^1.2.22",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "publish-sftp": "^1.0.6"
   }
 }
