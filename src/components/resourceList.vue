@@ -1,7 +1,9 @@
 <script setup lang="ts">
 
 import {useStore} from '@/store'
-import {removaEntitiesAndPrimitivesByName, showOrHideEntitiesByName} from "@/utils/cesiumUtils.ts";
+import {removeEntitiesAndPrimitivesByName, showOrHideEntitiesByName,removeAllPrimitive} from "@/utils/cesiumUtils.js";
+import {commonAddData} from '@/utils/utils'
+import {ref, watch} from "vue";
 const store = useStore()
 
 
@@ -12,11 +14,44 @@ function changeVisible(item) {
 function removeData(item) {
   const index = store.resourceList.findIndex(e=>e.name === item.name)
   store.resourceList.splice(index,1)
-  removaEntitiesAndPrimitivesByName(item.name)
+  localStorage.resourceList = JSON.stringify(store.resourceList)
+  removeEntitiesAndPrimitivesByName(item.name)
 }
 
+let resourceList = ref([])
+// 选择项目切换， 切换资源树
+watch(()=>store.currentProject,(value, oldValue, onCleanup)=>{
+  resourceList.value = store.resourceList.filter(e=>e.project === value)
+  // 先移除之前的数据
+  removeAllPrimitive()
+  // 需要将数据全部加载到地图上并隐藏
+  commonAddData(resourceList.value)
+})
+// 新建资源时， 调整资源树
+watch(()=>store.resourceList,()=>{
+  resourceList.value = store.resourceList.filter(e=>e.project === store.currentProject)
+},{
+  deep:true
+})
+// 切换场景时， 调整资源树勾选
+watch(()=>store.currentScene,()=>{
+  const scene = getCurScene()
+  if (scene.showEntityNames){
+    resourceList.value.forEach(r=>{
+      if (scene.showEntityNames.includes(r.name)){
+        r.show = true
+        changeVisible(r)
+      }else{
+        r.show = false
+        changeVisible(r)
+      }
+    })
+  }
+})
 
-
+function getCurScene() {
+  return store.sceneList.filter(e=>e.project === store.currentProject).find(e=>e.name === store.currentScene)
+}
 </script>
 
 <template>
@@ -24,7 +59,7 @@ function removeData(item) {
       <el-collapse>
         <el-collapse-item title="  资源列表" name="1">
           <el-scrollbar height="100%">
-            <div class="resource-list-item" v-for="item in store.resourceList.filter((e:any)=>e.project === store.currentProject)">
+            <div class="resource-list-item" v-for="item in resourceList">
               <input type="checkbox" v-model="item.show" @change="()=>changeVisible(item)"/>
               <div class="resource-list-item-name">{{item.name}}</div>
               <el-icon style="cursor: pointer" @click="removeData(item)"><CloseBold /></el-icon>

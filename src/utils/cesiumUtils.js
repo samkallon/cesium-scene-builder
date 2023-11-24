@@ -1,15 +1,16 @@
 import {bbox, buffer, center} from '@turf/turf'
-import {getAssetsFile} from "./utils.ts";
+import {getAssetsFile} from "./utils.js";
 // import {buildModuleUrl} from 'cesium'
 // import {set} from "lodash";
 
 import * as Cesium from "cesium";
+import {set} from "lodash";
 
 /**
  * 加载3dtiles
  * @param url  http://124.70.11.35/model/changde/d3dtiles/no5-3dtiles/merge_tile.json
  */
-export async function load3dtiles({url,name}:any) {
+export async function load3dtiles({url,name}) {
     const tileset = await Cesium.Cesium3DTileset.fromUrl(
         url,
         {
@@ -127,7 +128,7 @@ export function addWallGeojson({
  * 添加动态线
  * @param positions  flat到一维的经纬度
  * @param type
- * @param distination
+ * @param color
  */
 export function addDynamicLine(positions, type, color) {
     window.viewer.entities.add({
@@ -248,7 +249,7 @@ export function addDynamicWaveCircle({center, radius, type, color}) {
 
 
 //
-export function removaEntitiesAndPrimitivesByName(name) {
+export function removeEntitiesAndPrimitivesByName(name) {
     const entities = getEntitiesByName(name)
     entities.forEach(e => {
         window.viewer.entities.remove(e)
@@ -266,7 +267,7 @@ export function removaEntitiesAndPrimitivesByName(name) {
  * @returns {Promise<void>}
  */
 export async function locationToGeojson(geojson, showGeo = false) {
-    removaEntitiesAndPrimitivesByName('location')
+    removeEntitiesAndPrimitivesByName('location')
     let rec
     if (geojson.features.length === 1 && geojson.features[0].geometry.type === 'Point'){
         const geo = buffer(geojson, 100, {units: 'meters', steps: 4})
@@ -287,6 +288,11 @@ export async function locationToGeojson(geojson, showGeo = false) {
         offset: new Cesium.HeadingPitchRange(0.0, Cesium.Math.toRadians(-45.0), 0),
         duration:2
     })
+}
+
+export function removeAllPrimitive() {
+    window.viewer.scene.primitives._primitives.forEach(e=>window.viewer.scene.primitives.remove(e))
+    window.viewer.scene.groundPrimitives._primitives.forEach(e=>window.viewer.scene.primitives.remove(e))
 }
 //
 // /**

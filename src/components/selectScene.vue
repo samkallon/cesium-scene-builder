@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, watch} from 'vue'
 
 import {useStore} from '@/store'
 const store = useStore()
 
 const showPop = ref(false)
 function saveData() {
-
+  // 将当前场景的显示的entity 名称list 存到对应的scene中
+  const scene = getCurScene()
+  scene.showEntityNames = store.resourceList.filter(r=>r.show).map(e=>e.name)
+  window.localStorage.sceneList = JSON.stringify(store.sceneList)
+}
+function getCurScene() {
+  return store.sceneList.filter(e=>e.project === store.currentProject).find(e=>e.name === store.currentScene)
 }
 
 const project = ref('')
@@ -39,6 +45,17 @@ function updateSceneOptions() {
 function loadScene() {
   store.currentScene = scene.value
 }
+
+watch(()=>store.projectList,()=>{
+  projectOptions.value = store.projectList.map(e=>{
+    return{
+      label:e,
+      value:e
+    }
+  })
+},{
+  deep:true
+})
 
 </script>
 

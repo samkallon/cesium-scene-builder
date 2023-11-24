@@ -1,8 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const showPop = ref(false)
+import {ElMessage} from "element-plus";
+
+import {useStore} from '@/store'
+const store = useStore()
 function saveData() {
-  window.localStorage.setItem('')
+  if (store.projectList.includes(projectName.value)){
+    ElMessage.error('该项目已存在')
+    return
+  }
+  store.projectList.push(projectName.value)
+  localStorage.projectList = JSON.stringify(store.projectList)
 }
 
 const projectName = ref('')

@@ -4,7 +4,7 @@ import {ref} from "vue";
 const activeName = ref('')
 
 const currentSelectStyle = ref('')
-const color = ref('')
+const color = ref('rgba(102,245,30,0.94)')
 const nameKey = ref('')
 
 const radius = ref(1500)

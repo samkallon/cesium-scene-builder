@@ -6,7 +6,7 @@ import {
   addWallGeojson,
   load3dtiles,
   locationToGeojson
-} from "@/utils/cesiumUtils.ts";
+} from "@/utils/cesiumUtils.js";
 import mockData from '/public/mock.json'
 import StyleSelect from "@/components/StyleSelect.vue";
 import {ElMessage} from "element-plus";
@@ -53,7 +53,7 @@ function addData() {
     store.resourceList.push({
       type:'3dtiles',
       url:tilesUrl.value,
-      name:store.currentProject + '-' + tilesName.value,
+      name:tilesName.value,
       project:store.currentProject,
       show:true
     })
@@ -117,7 +117,7 @@ function addData() {
     store.resourceList.push({
       type:'geojson',
       geojson:geojson,
-      name:store.currentProject + '-' +geojsonName.value,
+      name:geojsonName.value,
       style:{
         name:currentStyle,
         color:selectStyle?.value?.color,
@@ -126,11 +126,13 @@ function addData() {
         wallHeight:selectStyle?.value?.wallHeight
       },
       show:true,
-      peoject:store.currentProject
+      project:store.currentProject
     })
     localStorage.resourceList = JSON.stringify(store.resourceList)
   }
 }
+
+
 
 function checkNameRepete(name:string) {
   return store.resourceList.find(e=>e.name === name)
