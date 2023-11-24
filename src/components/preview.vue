@@ -8,7 +8,6 @@ function saveData() {
 const project = ref('')
 const scene = ref('')
 const projectOptions = ref([])
-const sceneOptions = ref([])
 </script>
 
 <template>

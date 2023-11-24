@@ -68,6 +68,8 @@ export function showOrHideEntitiesByName(name, show, setStyle) {
  * @param wallList   cartesian3 list
  * @param maximumHeights 最大高度
  * @param minimumHeights 最小高度
+ * @param type
+ * @param color
  */
 export function addWallGeojson({
                                  wallList,

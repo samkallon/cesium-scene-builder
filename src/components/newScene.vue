@@ -3,7 +3,6 @@ import {onMounted, ref, watch} from 'vue'
 const showPop = ref(false)
 import {useStore} from '@/store'
 import {ElMessage} from "element-plus";
-import {projection} from "@turf/turf";
 const store = useStore()
 
 const scene = ref()
