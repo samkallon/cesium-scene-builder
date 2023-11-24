@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import {onMounted, ref, watch} from 'vue'
 const showPop = ref(false)
 import {useStore} from '@/store'

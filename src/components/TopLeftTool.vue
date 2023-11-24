@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import AddData from "@/components/AddData.vue";
 import SaveScene from "@/components/selectScene.vue";
 import NewProject from "@/components/newProject.vue";

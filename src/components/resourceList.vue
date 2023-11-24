@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 
 import {useStore} from '@/store'
 import {removeEntitiesAndPrimitivesByName, showOrHideEntitiesByName,removeAllPrimitive} from "@/utils/cesiumUtils.js";

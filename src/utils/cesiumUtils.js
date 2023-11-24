@@ -1,7 +1,5 @@
 import {bbox, buffer, center} from '@turf/turf'
 import {getAssetsFile} from "./utils.js";
-// import {buildModuleUrl} from 'cesium'
-// import {set} from "lodash";
 
 import * as Cesium from "cesium";
 import {set} from "lodash";
@@ -9,6 +7,7 @@ import {set} from "lodash";
 /**
  * 加载3dtiles
  * @param url  http://124.70.11.35/model/changde/d3dtiles/no5-3dtiles/merge_tile.json
+ * @param name
  */
 export async function load3dtiles({url,name}) {
     const tileset = await Cesium.Cesium3DTileset.fromUrl(

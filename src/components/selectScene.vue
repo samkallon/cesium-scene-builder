@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import {ref, onMounted, watch} from 'vue'
 
 import {useStore} from '@/store'
@@ -17,15 +17,11 @@ function getCurScene() {
 
 const project = ref('')
 const scene = ref('')
-type options = Array<{
-  label:string
-  value:string
-}>
-const projectOptions = ref<options>([])
-const sceneOptions = ref<options>([])
+const projectOptions = ref([])
+const sceneOptions = ref([])
 
 onMounted(()=>{
-  projectOptions.value = store.projectList.map((e:any)=>{
+  projectOptions.value = store.projectList.map((e)=>{
     return {
       label:e,
       value:e
@@ -34,7 +30,7 @@ onMounted(()=>{
 })
 function updateSceneOptions() {
   store.currentProject = project.value
-  sceneOptions.value = store.sceneList.filter((e:any)=>e.project === project.value).map((e:any)=>{
+  sceneOptions.value = store.sceneList.filter((e)=>e.project === project.value).map((e)=>{
     return {
       label:e.name,
       value:e.name

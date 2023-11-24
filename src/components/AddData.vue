@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import {ref} from "vue";
 import {
   addDynamicLine,
@@ -81,7 +81,7 @@ function addData() {
         ElMessage.error('当前geojson不是点数据!(feature的geometry的type需为Point)')
         return
       }
-      geojson.features.forEach((feature:any)=>{
+      geojson.features.forEach((feature)=>{
         addDynamicWaveCircle({
           center: Cesium.Cartesian3.fromDegrees(...feature.geometry.coordinates, 30),
           radius: selectStyle.value.radius,
@@ -94,7 +94,7 @@ function addData() {
         ElMessage.error('当前geojson不是线数据!(feature的geometry的type需为LineString)')
         return
       }
-      geojson.features.forEach((feature:any)=>{
+      geojson.features.forEach((feature)=>{
         addDynamicLine(feature.geometry.coordinates,geojsonName.value,selectStyle.value.color)
       })
     }else if (currentStyle === '动态立体围墙'){
@@ -102,7 +102,7 @@ function addData() {
         ElMessage.error('当前geojson不是线数据!(feature的geometry的type需为Polygon)')
         return
       }
-      geojson.features.forEach((feature:any)=>{
+      geojson.features.forEach((feature)=>{
         addWallGeojson({
           wallList:feature.geometry.coordinates,
           type:geojsonName.value,
@@ -134,7 +134,7 @@ function addData() {
 
 
 
-function checkNameRepete(name:string) {
+function checkNameRepete(name) {
   return store.resourceList.find(e=>e.name === name)
 }
 

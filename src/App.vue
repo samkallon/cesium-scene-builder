@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import CesiumViewer from './components/CesiumViewer.vue'
 import {useStore} from '@/store'
 const store = useStore()

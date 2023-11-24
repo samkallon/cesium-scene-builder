@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup >
 import {onMounted} from 'vue'
 import { Viewer } from 'cesium'
 import * as Cesium from "cesium";
