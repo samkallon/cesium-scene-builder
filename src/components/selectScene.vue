@@ -6,12 +6,13 @@ const store = useStore()
 
 const showPop = ref(false)
 function saveData() {
+  debugger
   // 将当前场景的显示的entity 名称list 存到对应的scene中
   const scene = getCurScene()
   scene.showEntityNames = store.resourceList.filter(r=>r.show).map(e=>e.name)
   // 保存当前相机视角
   scene.cameraConfig = {
-    position:window.viewer.camera.position,
+    position: JSON.parse(JSON.stringify(window.viewer.camera.position)),
     heading:window.viewer.camera.heading,
     pitch:window.viewer.camera.pitch,
     roll:window.viewer.camera.roll
@@ -47,6 +48,7 @@ function updateSceneOptions() {
 }
 
 function loadScene() {
+  debugger
   store.currentScene = scene.value
 }
 
