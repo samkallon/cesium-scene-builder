@@ -1,6 +1,7 @@
 <script setup >
 import { ref } from 'vue'
-const showPop = ref(false)
+import {useStore} from '@/store'
+const store = useStore()
 function saveData() {
 
 }
@@ -15,12 +16,12 @@ const projectOptions = ref([])
       ref="popover"
       title="请选择演示项目"
       :width="400"
-      :visible="showPop"
+      :visible="store.currentPop === 'preview'"
   >
     <template #reference>
-      <el-button style="margin-left:8px" type="primary" @click="showPop = true">演示</el-button>
+      <el-button style="margin-left:8px" type="primary" @click="store.currentPop = 'preview'">演示</el-button>
     </template>
-    <el-icon class="close-btn" @click="showPop = false">
+    <el-icon class="close-btn" @click="store.currentPop = ''">
       <CloseBold/>
     </el-icon>
     <el-select v-model="project" class="m-2" placeholder="选择项目">

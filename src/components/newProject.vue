@@ -1,6 +1,5 @@
 <script setup >
 import { ref } from 'vue'
-const showPop = ref(false)
 import {ElMessage} from "element-plus";
 
 import {useStore} from '@/store'
@@ -23,12 +22,12 @@ const projectName = ref('')
       ref="popover"
       title="请输入项目名称"
       :width="400"
-      :visible="showPop"
+      :visible="store.currentPop === 'newProject'"
   >
     <template #reference>
-      <el-button style="margin-left:8px" type="primary" @click="showPop = true">新建项目</el-button>
+      <el-button style="margin-left:8px" type="primary" @click="store.currentPop = 'newProject'">新建项目</el-button>
     </template>
-    <el-icon class="close-btn" @click="showPop = false">
+    <el-icon class="close-btn" @click="store.currentPop = ''">
       <CloseBold/>
     </el-icon>
     <el-input placeholder="请输入项目名称" v-model="projectName"></el-input>

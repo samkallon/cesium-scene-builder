@@ -1,6 +1,5 @@
 <script setup >
 import {onMounted, ref, watch} from 'vue'
-const showPop = ref(false)
 import {useStore} from '@/store'
 import {ElMessage} from "element-plus";
 const store = useStore()
@@ -53,12 +52,12 @@ const projectOptions = ref([])
       ref="popover"
       title="选择项目和场景"
       :width="400"
-      :visible="showPop"
+      :visible="store.currentPop === 'newScene'"
   >
     <template #reference>
-      <el-button style="margin-left:8px" type="primary" @click="showPop = true">新建场景</el-button>
+      <el-button style="margin-left:8px" type="primary" @click="store.currentPop = 'newScene'">新建场景</el-button>
     </template>
-    <el-icon class="close-btn" @click="showPop = false">
+    <el-icon class="close-btn" @click="store.currentPop = ''">
       <CloseBold/>
     </el-icon>
     <el-input placeholder="请输入场景名称" v-model="scene"></el-input>

@@ -7,7 +7,8 @@ export const useStore = defineStore('resourceList', {
         currentProject:'',
         currentScene:'',
         projectList:[],
-        sceneList:[]
+        sceneList:[],
+        currentPop:'' // 当前是哪个弹窗, 只能有一个弹窗
 
     })
 })

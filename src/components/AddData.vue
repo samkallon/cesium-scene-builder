@@ -146,12 +146,12 @@ function checkNameRepete(name) {
         ref="popover"
         title="添加数据"
         :width="400"
-        :visible="showPop"
+        :visible="store.currentPop === 'addData'"
     >
       <template #reference>
-        <el-button type="primary" @click="showPop = true">添加数据</el-button>
+        <el-button type="primary" @click="store.currentPop = 'addData'">添加数据</el-button>
       </template>
-      <el-icon class="close-btn" @click="showPop = false"><CloseBold /></el-icon>
+      <el-icon class="close-btn" @click="store.currentPop = ''"><CloseBold /></el-icon>
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane  label="3dtiles" name="3dtiles">
           <el-input class="panel-con"  v-model="tilesUrl" placeholder="请输入3dtile地址" />

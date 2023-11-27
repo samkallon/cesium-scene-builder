@@ -4,7 +4,6 @@ import {ref, onMounted, watch} from 'vue'
 import {useStore} from '@/store'
 const store = useStore()
 
-const showPop = ref(false)
 function saveData() {
   debugger
   // 将当前场景的显示的entity 名称list 存到对应的scene中
@@ -71,12 +70,12 @@ watch(()=>store.projectList,()=>{
       ref="popover"
       title="选择项目和场景"
       :width="400"
-      :visible="showPop"
+      :visible="store.currentPop === 'selectScene'"
   >
     <template #reference>
-      <el-button style="margin-left:8px" type="primary" @click="showPop = true">当前项目: {{project}}</el-button>
+      <el-button style="margin-left:8px" type="primary" @click="store.currentPop = 'selectScene'">当前项目: {{project}}</el-button>
     </template>
-    <el-icon class="close-btn" @click="showPop = false">
+    <el-icon class="close-btn" @click="store.currentPop = ''">
       <CloseBold/>
     </el-icon>
     <el-select v-model="project" class="m-2" placeholder="选择项目" @change="updateSceneOptions">
