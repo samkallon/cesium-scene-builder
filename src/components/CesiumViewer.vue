@@ -4,6 +4,9 @@ import { Viewer } from 'cesium'
 import * as Cesium from "cesium";
 import TopLeftTool from "@/components/TopLeftTool.vue";
 import ResourceList from "@/components/resourceList.vue";
+import ReturnToEdit from "@/components/returnToEdit.vue";
+import {useStore} from '@/store'
+const store = useStore()
 window.Cesium = Cesium
 
 Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(
@@ -28,8 +31,9 @@ onMounted(()=>{
 
 <template>
   <div id="cesiumContainer" ref="viewerDivRef">
-    <top-left-tool></top-left-tool>
-    <resource-list></resource-list>
+    <top-left-tool v-show="!store.currentPreview"></top-left-tool>
+    <resource-list v-show="!store.currentPreview"></resource-list>
+    <return-to-edit v-show="store.currentPreview"></return-to-edit>
   </div>
 </template>
 

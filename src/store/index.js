@@ -8,7 +8,8 @@ export const useStore = defineStore('resourceList', {
         currentScene:'',
         projectList:[],
         sceneList:[],
-        currentPop:'' // 当前是哪个弹窗, 只能有一个弹窗
+        currentPop:'', // 当前是哪个弹窗, 只能有一个弹窗
+        currentPreview:'', //演示模式 演示的项目
 
     })
 })

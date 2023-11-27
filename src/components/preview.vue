@@ -1,14 +1,24 @@
 <script setup >
-import { ref } from 'vue'
+import {onMounted, ref} from 'vue'
 import {useStore} from '@/store'
 const store = useStore()
 function saveData() {
-
+  store.currentPreview = project.value
+  store.currentPop = ''
+  store.currentProject = project.value
 }
 
 const project = ref('')
-const scene = ref('')
 const projectOptions = ref([])
+
+onMounted(()=>{
+  projectOptions.value = store.projectList.map(e=>{
+    return{
+      label:e,
+      value:e
+    }
+  })
+})
 </script>
 
 <template>
