@@ -159,28 +159,37 @@ function checkNameRepete(name) {
         <el-button type="primary" @click="store.currentPop = 'addData'">添加数据</el-button>
       </template>
       <el-icon class="close-btn" @click="store.currentPop = ''"><CloseBold /></el-icon>
-      <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane  label="3dtiles" name="3dtiles">
-          <el-input class="panel-con"  v-model="tilesUrl" placeholder="请输入3dtile地址" />
-          <el-input class="panel-con"  v-model="tilesName" placeholder="请输入3dtile名称,不可重复" />
-        </el-tab-pane>
-        <el-tab-pane label="geojson" name="geojson">
-          <el-link type="primary" href="https://geojson.io/" target="_blank">此网站可生成数据</el-link>
-          <div style="display: flex;margin-top:8px">
-            <div>模拟数据:</div>
-            <el-button @click="geojsonStr = JSON.stringify(mockData.mockPoint)">点</el-button>
-            <el-button @click="geojsonStr = JSON.stringify(mockData.mockLine)">线</el-button>
-            <el-button @click="geojsonStr = JSON.stringify(mockData.mockPolygon)">面</el-button>
-          </div>
-          <el-input class="panel-con"  type="textarea" v-model="geojsonStr" placeholder="将geojson数据复制到此(FeatureCollection,仅支持单一类型)" />
-          <el-input class="panel-con"  v-model="geojsonName" placeholder="请输入geojson名称,不可重复" />
-          <style-select ref="selectStyle"></style-select>
-        </el-tab-pane>
-        <el-tab-pane label="geoserver" name="geoserver">
-          <el-input class="panel-con"  v-model="geoserverUrl" placeholder="请输入geoserver服务地址" />
-        </el-tab-pane>
-      </el-tabs>
-      <el-button @click="addData" style="margin-top: 8px;float: right">确认</el-button>
+      <el-scrollbar :max-height="600" style="padding-right: 20px">
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+          <el-tab-pane  label="3dtiles" name="3dtiles">
+            <el-input class="panel-con"  v-model="tilesUrl" placeholder="请输入3dtile地址" />
+            <el-input class="panel-con"  v-model="tilesName" placeholder="请输入3dtile名称,不可重复" />
+          </el-tab-pane>
+          <el-tab-pane label="geojson" name="geojson">
+            <div style="display: flex;align-items: center;  margin-top:8px">
+              <el-link type="primary" href="https://geojson.io/" target="_blank" style="flex-grow: 2">数据生成</el-link>
+              <div>点击生成模拟数据:</div>
+              <el-button @click="geojsonStr = JSON.stringify(mockData.mockPoint)">点</el-button>
+              <el-button @click="geojsonStr = JSON.stringify(mockData.mockLine)">线</el-button>
+              <el-button @click="geojsonStr = JSON.stringify(mockData.mockPolygon)">面</el-button>
+            </div>
+            <el-divider></el-divider>
+            <div style="display: flex">
+              <div style="flex-grow: 2">绘制(左键绘制,右键结束): </div>
+              <el-button @click="">点</el-button>
+              <el-button @click="">线</el-button>
+              <el-button @click="">面</el-button>
+            </div>
+            <el-input class="panel-con"  type="textarea" v-model="geojsonStr" placeholder="将geojson数据复制到此(FeatureCollection,仅支持单一类型)" />
+            <el-input class="panel-con"  v-model="geojsonName" placeholder="请输入geojson名称,不可重复" />
+            <style-select ref="selectStyle"></style-select>
+          </el-tab-pane>
+          <el-tab-pane label="geoserver" name="geoserver">
+            <el-input class="panel-con"  v-model="geoserverUrl" placeholder="请输入geoserver服务地址" />
+          </el-tab-pane>
+        </el-tabs>
+        <el-button @click="addData" style="margin-top: 8px;float: right">确认</el-button>
+      </el-scrollbar>
     </el-popover>
   </div>
 </template>

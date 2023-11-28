@@ -348,6 +348,41 @@ export function removeAllPrimitive() {
     window.viewer.scene.groundPrimitives.removeAll()
 }
 
+// 左键点击绘制, 右键结束
+export function drawPoint(cb){
+    const pointList = []
+    const handler = new Cesium.ScreenSpaceEventHandler(window.viewer.canvas)
+    handler.setInputAction((event)=>{
+        const position  = window.viewer.scene.pickPosition(event.position)
+        pointList.push(position)
+        window.viewer.entities.add({
+            position,
+            point:{
+                pixelSize:10
+            }
+        })
+    },Cesium.ScreenSpaceEventType.LEFT_CLICK)
+    handler.setInputAction((event)=>{
+        const featureCollection = {
+            type:'FeatureCollection',
+            features:[]
+        }
+        featureCollection.features = pointList.map(e=>{
+            const catographic = new Cesium.Cartographic.fromCartesian(e)
+            return {
+                type:'Feature',
+                properties:{},
+                geometry:{
+                    type:'Point',
+                    coordinates:[Cesium.Math.toDegrees(catographic.longitude),Cesium.Math.toDegrees(catographic.latitude)]
+                }
+            }
+        })
+        cb(featureCollection)
+    },Cesium.ScreenSpaceEventType.RIGHT_CLICK)
+}
+
+
 //
 // /**
 //  *
