@@ -28,7 +28,7 @@ export function commonAddData(resourceList) {
                     })
                 })
             }else if(currentStyle === '点标签') {
-                addTextLabel(geojson.features, r.name, r.style[styleNameDic[currentStyle]])
+                addTextLabel(geojson, r.name, r.style[styleNameDic[currentStyle]])
             }else if(currentStyle === '动态发光线'){
                 geojson.features.forEach((feature)=>{
                     addDynamicLine(feature.geometry.coordinates,r.name,r.style[styleNameDic[currentStyle]].color)

@@ -4,7 +4,9 @@
     "features": [
       {
         "type": "Feature",
-        "properties": {},
+        "properties": {
+          "text": "点1"
+        },
         "geometry": {
           "coordinates": [
             118.29372336616126,
@@ -15,7 +17,9 @@
       },
       {
         "type": "Feature",
-        "properties": {},
+        "properties": {
+          "text": "点2"
+        },
         "geometry": {
           "coordinates": [
             119.37997512615266,

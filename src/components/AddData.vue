@@ -94,7 +94,7 @@ function addData() {
         ElMessage.error('当前geojson不是点数据!(feature的geometry的type需为Point)')
         return
       }
-      addTextLabel(geojson.features,geojsonName.value)
+      addTextLabel(geojson,geojsonName.value,selectStyle.value.labelStyle)
 
     }else if(currentStyle === '动态发光线'){
       if(geojson.features[0].geometry.type !== 'LineString'){
