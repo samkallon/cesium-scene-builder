@@ -1,10 +1,16 @@
 // 获取assets静态资源
-import {addDynamicLine, addDynamicWaveCircle, addWallGeojson, load3dtiles} from "@/utils/cesiumUtils.js";
+import {addDynamicLine, addDynamicWaveCircle, addTextLabel, addWallGeojson, load3dtiles} from "@/utils/cesiumUtils.js";
 import * as Cesium from "cesium";
 
 export function getAssetsFile(url) {
     return new URL(`../assets/${url}`, import.meta.url).href;
 };
+const styleNameDic = {
+    '点扩散波纹':'kuoSanPointStyle',
+    '点标签':'labelStyle',
+    '动态发光线':'dynamicLineStyle',
+    '动态立体围墙':'dynamicWallStyle',
+}
 export function commonAddData(resourceList) {
     resourceList.forEach(r=>{
         if (r.type === '3dtiles'){
@@ -16,22 +22,24 @@ export function commonAddData(resourceList) {
                 geojson.features.forEach((feature)=>{
                     addDynamicWaveCircle({
                         center: Cesium.Cartesian3.fromDegrees(...feature.geometry.coordinates, 30),
-                        radius: r.style.radius,
+                        radius: r.style[styleNameDic[currentStyle]].radius,
                         type: r.name,
-                        color: r.style.color
+                        color: r.style[styleNameDic[currentStyle]].color
                     })
                 })
+            }else if(currentStyle === '点标签') {
+                addTextLabel(geojson.features, r.name, r.style[styleNameDic[currentStyle]])
             }else if(currentStyle === '动态发光线'){
                 geojson.features.forEach((feature)=>{
-                    addDynamicLine(feature.geometry.coordinates,r.name,r.style.color)
+                    addDynamicLine(feature.geometry.coordinates,r.name,r.style[styleNameDic[currentStyle]].color)
                 })
             }else if (currentStyle === '动态立体围墙'){
                 geojson.features.forEach((feature)=>{
                     addWallGeojson({
                         wallList:feature.geometry.coordinates,
                         type:r.name,
-                        color:r.style.color,
-                        maximumHeights:r.style.wallHeight
+                        color:r.style[styleNameDic[currentStyle]].color,
+                        maximumHeights:r.style[styleNameDic[currentStyle]].height
                     })
                 })
             }

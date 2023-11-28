@@ -277,6 +277,28 @@ export function addDynamicWaveCircle({center, radius, type, color}) {
     window.viewer.scene.primitives.add(circlePrimitive)
 }
 
+export function addTextLabel(featureCollection,name,style) {
+    for (let i = 0; i < featureCollection.features.length; i++) {
+        const feature = featureCollection.features[i];
+        const entity = window.viewer.entities.add({
+            position: new Cesium.Cartesian3.fromDegrees(
+                feature.geometry.coordinates[0],
+                feature.geometry.coordinates[1],
+                feature.properties.height || style.labelHeight
+                ),
+            name,
+            label:{
+                text:feature.properties[style.textKey] || '',
+                showBackground:style.showBackground,
+                backgroundColor: new Cesium.Color.fromCssColorString(style.backgroundColor),
+                backgroundPadding:style.backgroundPadding,
+                pixelOffset: new Cesium.Cartesian2(style.pixelOffsetX,style.pixelOffsetY),
+                font:style.font || '14px  sans-serif',
+                fillColor: new Cesium.Color.fromCssColorString(style.fillColor)
+            }
+        })
+    }
+}
 
 //
 export function removeEntitiesAndPrimitivesByName(name) {

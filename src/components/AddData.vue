@@ -2,7 +2,7 @@
 import {ref} from "vue";
 import {
   addDynamicLine,
-  addDynamicWaveCircle,
+  addDynamicWaveCircle, addTextLabel,
   addWallGeojson,
   load3dtiles,
   locationToGeojson
@@ -84,18 +84,25 @@ function addData() {
       geojson.features.forEach((feature)=>{
         addDynamicWaveCircle({
           center: Cesium.Cartesian3.fromDegrees(...feature.geometry.coordinates, 30),
-          radius: selectStyle.value.radius,
+          radius: selectStyle.value.kuoSanPointStyle.radius,
           type: geojsonName.value,
-          color: selectStyle.value.color
+          color: selectStyle.value.kuoSanPointStyle.color
         })
       })
+    }else if(currentStyle === '点标签'){
+      if(geojson.features[0].geometry.type !== 'Point'){
+        ElMessage.error('当前geojson不是点数据!(feature的geometry的type需为Point)')
+        return
+      }
+      addTextLabel(geojson.features,geojsonName.value)
+
     }else if(currentStyle === '动态发光线'){
       if(geojson.features[0].geometry.type !== 'LineString'){
         ElMessage.error('当前geojson不是线数据!(feature的geometry的type需为LineString)')
         return
       }
       geojson.features.forEach((feature)=>{
-        addDynamicLine(feature.geometry.coordinates,geojsonName.value,selectStyle.value.color)
+        addDynamicLine(feature.geometry.coordinates,geojsonName.value,selectStyle.value.dynamicLineStyle.color)
       })
     }else if (currentStyle === '动态立体围墙'){
       if(geojson.features[0].geometry.type !== 'Polygon'){
@@ -106,8 +113,8 @@ function addData() {
         addWallGeojson({
           wallList:feature.geometry.coordinates,
           type:geojsonName.value,
-          color:selectStyle.value.color,
-          maximumHeights:selectStyle.value.wallHeight
+          color:selectStyle.value.dynamicWallStyle.color,
+          maximumHeights:selectStyle.value.dynamicWallStyle.wallHeight
         })
       })
 
@@ -120,10 +127,10 @@ function addData() {
       name:geojsonName.value,
       style:{
         name:currentStyle,
-        color:selectStyle?.value?.color,
-        radius: selectStyle?.value?.radius,
-        nameKey:selectStyle?.value?.nameKey,
-        wallHeight:selectStyle?.value?.wallHeight
+        dynamicWallStyle:selectStyle.value.dynamicWallStyle,
+        dynamicLineStyle:selectStyle.value.dynamicLineStyle,
+        kuoSanPointStyle:selectStyle.value.kuoSanPointStyle,
+        labelStyle:selectStyle.value.labelStyle,
       },
       show:true,
       project:store.currentProject

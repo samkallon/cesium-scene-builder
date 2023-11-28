@@ -5,7 +5,6 @@ import {useStore} from '@/store'
 const store = useStore()
 
 function saveData() {
-  debugger
   // 将当前场景的显示的entity 名称list 存到对应的scene中
   const scene = getCurScene()
   scene.showEntityNames = store.resourceList.filter(r=>r.show).map(e=>e.name)
@@ -47,7 +46,6 @@ function updateSceneOptions() {
 }
 
 function loadScene() {
-  debugger
   store.currentScene = scene.value
 }
 
