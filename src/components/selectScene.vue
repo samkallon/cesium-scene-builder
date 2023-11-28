@@ -2,8 +2,13 @@
 import {ref, onMounted, watch} from 'vue'
 
 import {useStore} from '@/store'
+import bus from "vue3-eventbus";
 const store = useStore()
 
+bus.on('newSceneAdded',()=>{
+  // 新的场景添加后 需要刷新当前的 场景列表
+  updateSceneOptions()
+})
 function saveData() {
   // 将当前场景的显示的entity 名称list 存到对应的scene中
   const scene = getCurScene()

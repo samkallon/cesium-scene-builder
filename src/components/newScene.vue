@@ -2,6 +2,7 @@
 import {onMounted, ref, watch} from 'vue'
 import {useStore} from '@/store'
 import {ElMessage} from "element-plus";
+import bus from 'vue3-eventbus'
 const store = useStore()
 
 const scene = ref()
@@ -20,6 +21,8 @@ function saveData() {
     showEntityNames:[]
   })
   localStorage.sceneList = JSON.stringify(store.sceneList)
+  // 需要让场景选择那边 更新选择的场景列表
+  bus.emit('newSceneAdded')
   ElMessage.success('保存成功!')
 }
 

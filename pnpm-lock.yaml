@@ -29,6 +29,9 @@ dependencies:
   vue:
     specifier: ^3.3.8
     version: 3.3.8
+  vue3-eventbus:
+    specifier: ^2.0.0
+    version: 2.0.0
 
 devDependencies:
   '@vitejs/plugin-vue':
@@ -1098,6 +1101,10 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /mitt@2.1.0:
+    resolution: {integrity: sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==}
+    dev: false
+
   /ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: true
@@ -1505,6 +1512,12 @@ packages:
         optional: true
     dependencies:
       vue: 3.3.8
+    dev: false
+
+  /vue3-eventbus@2.0.0:
+    resolution: {integrity: sha512-AzgA5ShZqWy6zeuZbnwAOZDt/GHRcUwUEyNmUoOEK7MtwpjABXtyh1m6JHzcEulrRrxMgpI2qDFsjss3fYpYuw==}
+    dependencies:
+      mitt: 2.1.0
     dev: false
 
   /vue@3.3.8:
