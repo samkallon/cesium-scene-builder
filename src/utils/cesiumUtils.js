@@ -5,6 +5,7 @@ import {getAssetsFile} from "./utils.js";
 
 import * as Cesium from "cesium";
 import {set} from "lodash";
+import {ElMessage} from "element-plus";
 
 /**
  * 加载3dtiles
@@ -219,7 +220,7 @@ export function addDynamicWaveCircle({center, radius, type, color}) {
         geometryInstances: new Cesium.GeometryInstance({
             geometry: new Cesium.CircleGeometry({
                 center,
-                radius,
+                radius:+radius,
                 height: 20,
                 vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT,
             })
@@ -350,19 +351,25 @@ export function removeAllPrimitive() {
 
 // 左键点击绘制, 右键结束
 export function drawPoint(cb){
+    ElMessage.success('开始绘制')
     const pointList = []
     const handler = new Cesium.ScreenSpaceEventHandler(window.viewer.canvas)
     handler.setInputAction((event)=>{
-        const position  = window.viewer.scene.pickPosition(event.position)
+        // const position  = window.viewer.scene.pickPosition(event.position)
+        const position  = viewer.camera.pickEllipsoid(event.position, viewer.scene.globe.ellipsoid);
         pointList.push(position)
         window.viewer.entities.add({
+            name:'draw',
             position,
             point:{
-                pixelSize:10
+                pixelSize:10,
+                disableDepthTestDistance:Number.POSITIVE_INFINITY
             }
         })
     },Cesium.ScreenSpaceEventType.LEFT_CLICK)
     handler.setInputAction((event)=>{
+        ElMessage.success('绘制结束')
+        removeEntitiesAndPrimitivesByName('draw')
         const featureCollection = {
             type:'FeatureCollection',
             features:[]
@@ -379,6 +386,9 @@ export function drawPoint(cb){
             }
         })
         cb(featureCollection)
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.RIGHT_CLICK)
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK)
+        handler.destroy()
     },Cesium.ScreenSpaceEventType.RIGHT_CLICK)
 }
 

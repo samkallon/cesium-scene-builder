@@ -3,7 +3,7 @@ import {ref} from "vue";
 import {
   addDynamicLine,
   addDynamicWaveCircle, addTextLabel,
-  addWallGeojson,
+  addWallGeojson, drawPoint,
   load3dtiles,
   locationToGeojson
 } from "@/utils/cesiumUtils.js";
@@ -145,6 +145,12 @@ function checkNameRepete(name) {
   return store.resourceList.find(e=>e.name === name)
 }
 
+function handleDrawPoint() {
+  drawPoint((featureCollection)=>{
+    geojsonStr.value = JSON.stringify(featureCollection)
+  })
+}
+
 </script>
 
 <template>
@@ -176,7 +182,7 @@ function checkNameRepete(name) {
             <el-divider></el-divider>
             <div style="display: flex">
               <div style="flex-grow: 2">绘制(左键绘制,右键结束): </div>
-              <el-button @click="">点</el-button>
+              <el-button @click="handleDrawPoint">点</el-button>
               <el-button @click="">线</el-button>
               <el-button @click="">面</el-button>
             </div>
